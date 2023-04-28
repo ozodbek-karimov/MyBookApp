@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<group>
+    <item
+        android:id="@+id/pdf_show"
+        android:icon="@drawable/ic_book"
+        android:title="@string/umumiy_kitob"
+        app:tint="#152A40" />
+    <item
+        android:id="@+id/translator"
+        android:icon="@drawable/ic_translator"
+        android:title="@string/tarjimon"
+        app:tint="#152A40" />
+
+    <item
+        android:id="@+id/dictionary"
+        android:icon="@drawable/ic_translator_more"
+        android:title="@string/webster_dictionary"
+        app:tint="#152A40" />
+    <item
+        android:id="@+id/franceEnglishDictionary"
+        android:icon="@drawable/ic_translator_more"
+        android:title="@string/fransuzcha_inglizcha_lug_at"
+        app:tint="#152A40" />
+<!--    <item-->
+<!--        android:id="@+id/theme_modes"-->
+<!--        android:icon="@drawable/ic_light"-->
+<!--        android:title="@string/tungi_rejim"-->
+<!--        app:tint="#152A40" />-->
+</group>
+
+    <item android:title="@string/datur_haqida">
+
+        <menu>
+
+            <item
+                android:id="@+id/about_id"
+                android:icon="@drawable/ic_error"
+                android:title="@string/batafsil"
+                app:tint="#152A40" />
+
+            <item
+                android:id="@+id/rating"
+                android:icon="@drawable/ic_ok"
+                android:title="@string/bizni_baholash"
+                app:tint="#152A40" />
+
+            <item
+                android:id="@+id/share"
+                android:icon="@drawable/ic_share"
+                android:title="@string/do_stlarga_ulashing"
+                app:tint="#152A40" />
+        </menu>
+
+    </item>
+
+    <item android:title="">
+
+        <menu>
+            <item
+                android:id="@+id/finish"
+                android:icon="@drawable/ic_finish"
+                android:title="@string/chiqish"
+                app:tint="#152A40" />
+        </menu>
+
+    </item>
+
+
+
+
+</menu>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Sport atamalari</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ozodbekkarimov100_gmail_com">ozodbekkarimov100_gmail_com</string>
+    <string name="dasturga_baho_berish">Dasturga baho berish</string>
+    <string name="baholash">Baholash</string>
+    <string name="email">Email:</string>
+    <string name="dasturchi_ozodbek_karimov">Dasturchi: Ozodbek Karimov</string>
+    <string name="version_1_0">Version 1.5</string>
+    <string name="sport_atamalari">Sport atamalari</string>
+    <string name="todo">todo</string>
+    <string name="umumiy_kitob">Umumiy kitob</string>
+    <string name="share">Share</string>
+    <string name="rate">Rate</string>
+    <string name="zoom_in">Zoom in</string>
+    <string name="zoom_out">Zoom out</string>
+    <string name="search">Search</string>
+    <string name="refresh">Refresh</string>
+    <string name="please_check_your_nework">Iltimos internetingizni yoqing !</string>
+    <string name="tarjimon">Google Tarjimon</string>
+    <string name="tungi_rejim">Tungi rejim</string>
+    <string name="datur_haqida">Dastur haqida</string>
+    <string name="batafsil">Batafsil</string>
+    <string name="bizni_baholash">Bizni baholash</string>
+    <string name="do_stlarga_ulashing">Do\'stlarga ulashing</string>
+    <string name="more">More</string>
+    <string name="chiqish">Chiqish</string>
+    <string name="webster_dictionary"> Merriam - Webster</string>
+    <string name="fransuzcha_inglizcha_lug_at">Fransuzcha - Inglizcha</string>
+    <string name="vertikal_o_qish">Vertikal o\'qish</string>
+    <string name="gorizontal_o_qish">Gorizontal o\'qish</string>
+    <string name="dasturdan_chiqishni_xohlaysizmi">Dasturdan chiqishni xohlaysizmi ?</string>
+    <string name="yo_q">Yo\'q</string>
+    <string name="xa">Xa</string>
+</resources>
