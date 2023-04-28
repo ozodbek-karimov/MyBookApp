@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.DetailFragment"
+        android:label="Sport atamalari"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popUpTo="@id/detailFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="chapter_postion"
+            app:argType="integer" />
+        <argument
+            android:name="bookName"
+            app:argType="pl.ozodbek.sportatamalari.data.ChapterNameData" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.MainFragment"
+        android:label="Sport atamalari"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_authorFragment"
+            app:destination="@id/authorFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_translatorFragment"
+            app:destination="@id/translatorFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_dictionaryFragment"
+            app:destination="@id/dictionaryFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_franceEnglishDictionaryFragment"
+            app:destination="@id/franceEnglishDictionaryFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
+    </fragment>
+    <fragment
+
+        android:id="@+id/authorFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.AuthorFragment"
+        android:label="Dastur haqida"
+        tools:layout="@layout/fragment_author" >
+        <action
+            android:id="@+id/action_authorFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/authorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/translatorFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.TranslatorFragment"
+        android:label="Google Tarjimon"
+        tools:layout="@layout/fragment_translator" >
+        <action
+            android:id="@+id/action_translatorFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/translatorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/dictionaryFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.DictionaryFragment"
+        android:label="Merriam Webster lu'gati"
+        tools:layout="@layout/fragment_dictionary" >
+        <action
+            android:id="@+id/action_dictionaryFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/dictionaryFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/franceEnglishDictionaryFragment"
+        android:name="pl.ozodbek.sportatamalari.ui.fragments.FranceEnglishDictionaryFragment"
+        android:label="Fransuzcha - Inglizcha lug'at"
+        tools:layout="@layout/fragment_france_english_dictionary" >
+        <action
+            android:id="@+id/action_franceEnglishDictionaryFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/franceEnglishDictionaryFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
