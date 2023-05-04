@@ -1,9 +1,6 @@
 package pl.ozodbek.sportatamalari.ui.fragments
 
-
-import android.animation.ValueAnimator
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,7 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -20,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
 import pl.ozodbek.sportatamalari.R
 import pl.ozodbek.sportatamalari.databinding.FragmentDetailBinding
+import pl.ozodbek.sportatamalari.utils.Constants.Companion.DEFAULT_ZOOM
 import pl.ozodbek.sportatamalari.utils.Constants.Companion.KIRISH
 import pl.ozodbek.sportatamalari.utils.Constants.Companion.MAX_ZOOM
 import pl.ozodbek.sportatamalari.utils.Constants.Companion.MIN_ZOOM
@@ -54,55 +52,45 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val args: DetailFragmentArgs by navArgs()
-    private lateinit var pdfFileNames: Map<Int, String>
+    private var pdfFileNames: Map<Int, String>? = null
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        horizontalPageSetUp()
-        setupMenu()
-        scrollButtonSetUp()
 
-        binding.pdfViewer.minZoom = 5.0f
-        binding.pdfViewer.maxZoom = 3.0f
-        binding.pdfViewer.midZoom = 2.5f
+        /**  DEFAULT PAGE SET UP  */
+        horizontalPageSetUp()
+
+        /**   MENU SET UP  */
+        setupMenu()
+
+        /**  SET UP NAVIGATE BUTTONS  */
+        setUpNavigateButton(binding.verticalButton)
+        setUpNavigateButton(binding.horizontalButton)
 
 
         return binding.root
     }
 
-    private fun scrollButtonSetUp() {
 
-        binding.apply {
-
-            verticalButton.setOnClickListener {
-                pdfViewer.jumpTo(pdfViewer.currentPage - 1, true)
-            }
-
-            verticalButton.setOnLongClickListener {
-                pdfViewer.jumpTo(0, true)
-                true
-            }
-
-
-            horizontalButton.setOnClickListener {
-                pdfViewer.jumpTo(pdfViewer.currentPage - 1, true)
-            }
-
-            horizontalButton.setOnLongClickListener {
-                pdfViewer.jumpTo(0, true)
-                true
-            }
-
+    private fun setUpNavigateButton(button: ImageView) {
+        button.setOnClickListener {
+            binding.pdfViewer.resetZoom()
+            binding.pdfViewer.jumpTo(binding.pdfViewer.currentPage - 1, true)
         }
 
+        button.setOnLongClickListener {
+            binding.pdfViewer.resetZoom()
+            binding.pdfViewer.jumpTo(0, true)
+            true
+        }
     }
 
-    private fun horizontalPageSetUp() {
+    private fun setUpPdfViewer(swipeHorizontal: Boolean) {
+
         pdfFileNames = mapOf(
             0 to KIRISH,
             1 to SET1,
@@ -129,80 +117,63 @@ class DetailFragment : Fragment() {
             22 to SET22,
             23 to UMUMIY_NEW
         )
-        binding.verticalButton.visibility = View.GONE
-        binding.horizontalButton.visibility = View.VISIBLE
-        pdfFileNames[args.chapterPostion]?.let {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                args.chapterdata.bookName
-            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            val savedPageNumber = sharedPref.getInt(SAVED_PAGE_LAST_BOOK, 0)
 
+        binding.apply {
+            horizontalButton.visibility = if (swipeHorizontal) View.VISIBLE else View.GONE
+            verticalButton.visibility = if (swipeHorizontal) View.GONE else View.VISIBLE
 
-            binding.pdfViewer.fromAsset(it)
-                .enableSwipe(true)
-                .swipeHorizontal(true)
-                .defaultPage(savedPageNumber)
-                .enableAnnotationRendering(true)
-                .pageFling(true)
-                .autoSpacing(true)
-                .pageSnap(true)
-                .onPageScroll { _, dy ->
-                    binding.horizontalButton.visibility = if (dy > 0) {
-                        binding.pdfViewer.useBestQuality(true)
-                        View.VISIBLE
-                    } else {
-                        View.GONE
+            pdfFileNames?.get(args.chapterPostion)?.let {
+                (requireActivity() as AppCompatActivity).supportActionBar?.title =
+                    args.chapterdata.bookName
+                val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                val savedPageNumber = sharedPref.getInt(SAVED_PAGE_LAST_BOOK, 0)
+
+                pdfViewer.fromAsset(it)
+                    .enableSwipe(true)
+                    .swipeHorizontal(swipeHorizontal)
+                    .enableAnnotationRendering(true)
+                    .defaultPage(savedPageNumber)
+                    .pageFling(true)
+                    .autoSpacing(true)
+                    .pageSnap(true)
+                    .onPageScroll { currentPageIndex, dx ->
+
+                        horizontalButton.visibility =
+                            if (swipeHorizontal && currentPageIndex > 0 && dx > 0) {
+                                pdfViewer.useBestQuality(true)
+                                View.VISIBLE
+                            } else {
+                                View.GONE
+                            }
+
+                        verticalButton.visibility =
+                            if (!swipeHorizontal && currentPageIndex > 0 && dx > 0) {
+                                pdfViewer.useBestQuality(true)
+                                View.VISIBLE
+                            } else {
+                                View.GONE
+                            }
+
                     }
-                }
-                .onPageChange { page, pageCount ->
-
-                    binding.textView14.text = "${page + 1} / $pageCount"
-                    with(sharedPref.edit()) {
-                        putInt(SAVED_PAGE_LAST_BOOK, page)
-                        apply()
+                    .onPageChange { page, pageCount ->
+                        pageCounterTv.text =
+                            getString(R.string.page_counter, page + 1, pageCount)
+                        with(sharedPref.edit()) {
+                            putInt(SAVED_PAGE_LAST_BOOK, page)
+                            apply()
+                        }
                     }
-                }
-                .load()
-
+                    .load()
+            }
         }
     }
 
+    private fun horizontalPageSetUp() {
+        setUpPdfViewer(true)
+    }
+
     private fun verticalPageSetUp() {
-        binding.horizontalButton.visibility = View.GONE
-        binding.verticalButton.visibility = View.VISIBLE
-        pdfFileNames[args.chapterPostion]?.let {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                args.chapterdata.bookName
-            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            val savedPageNumber = sharedPref.getInt(SAVED_PAGE_LAST_BOOK, 0)
-
-            binding.pdfViewer.fromAsset(it)
-                .enableSwipe(true)
-                .swipeHorizontal(false)
-                .enableAnnotationRendering(true)
-                .defaultPage(savedPageNumber)
-                .pageFling(true)
-                .autoSpacing(true)
-                .pageSnap(true)
-                .onPageScroll { _, dy ->
-                    binding.verticalButton.visibility = if (dy > 0) {
-                        binding.pdfViewer.useBestQuality(true)
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
-                }
-                .onPageChange { page, pageCount ->
-
-                    binding.textView14.text = "${page + 1} / $pageCount"
-                    with(sharedPref.edit()) {
-                        putInt(SAVED_PAGE_LAST_BOOK, page)
-                        apply()
-                    }
-                }
-                .load()
-
-        }
+        setUpPdfViewer(false)
     }
 
     private fun setupMenu() {
@@ -214,33 +185,39 @@ class DetailFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                val zoom = binding.pdfViewer.zoom
+                var zoom = DEFAULT_ZOOM
                 return when (menuItem.itemId) {
                     R.id.zoom_in -> {
                         if (zoom < MAX_ZOOM) {
-                            binding.pdfViewer.zoomWithAnimation(zoom + 1f)
+                            zoom += 1f
+                            binding.pdfViewer.zoomWithAnimation(zoom)
+                        } else {
+                            zoom = DEFAULT_ZOOM
+                            binding.pdfViewer.zoomWithAnimation(zoom)
                         }
                         true
                     }
 
                     R.id.zoom_out -> {
                         if (zoom > MIN_ZOOM) {
-                            binding.pdfViewer.zoomWithAnimation(zoom - 1f)
+                            zoom -= 1f
+                            binding.pdfViewer.zoomWithAnimation(zoom)
+                        } else {
+                            zoom = DEFAULT_ZOOM
+                            binding.pdfViewer.zoomWithAnimation(zoom)
                         }
                         true
                     }
 
                     R.id.vertical -> {
+                        binding.pdfViewer.invalidate()
                         verticalPageSetUp()
                         true
                     }
 
                     R.id.horizontal -> {
+                        binding.pdfViewer.invalidate()
                         horizontalPageSetUp()
-                        true
-                    }
-
-                    R.id.share -> {
                         true
                     }
 

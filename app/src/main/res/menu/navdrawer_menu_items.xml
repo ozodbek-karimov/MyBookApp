@@ -8,27 +8,28 @@
         android:icon="@drawable/ic_book"
         android:title="@string/umumiy_kitob"
         app:tint="#152A40" />
-    <item
-        android:id="@+id/translator"
-        android:icon="@drawable/ic_translator"
-        android:title="@string/tarjimon"
-        app:tint="#152A40" />
 
-    <item
-        android:id="@+id/dictionary"
-        android:icon="@drawable/ic_translator_more"
-        android:title="@string/webster_dictionary"
-        app:tint="#152A40" />
-    <item
-        android:id="@+id/franceEnglishDictionary"
-        android:icon="@drawable/ic_translator_more"
-        android:title="@string/fransuzcha_inglizcha_lug_at"
-        app:tint="#152A40" />
-<!--    <item-->
-<!--        android:id="@+id/theme_modes"-->
-<!--        android:icon="@drawable/ic_light"-->
-<!--        android:title="@string/tungi_rejim"-->
-<!--        app:tint="#152A40" />-->
+    <item android:title="@string/qo_shimcha_lug_atlar">
+        <menu>
+            <item
+                android:id="@+id/translator"
+                android:icon="@drawable/ic_translator"
+                android:title="@string/tarjimon"
+                app:tint="#152A40" />
+
+            <item
+                android:id="@+id/dictionary"
+                android:icon="@drawable/ic_translator_more"
+                android:title="@string/webster_dictionary"
+                app:tint="#152A40" />
+            <item
+                android:id="@+id/franceEnglishDictionary"
+                android:icon="@drawable/ic_translator_more"
+                android:title="@string/fransuzcha_inglizcha_lug_at"
+                app:tint="#152A40" />
+        </menu>
+    </item>
+
 </group>
 
     <item android:title="@string/datur_haqida">

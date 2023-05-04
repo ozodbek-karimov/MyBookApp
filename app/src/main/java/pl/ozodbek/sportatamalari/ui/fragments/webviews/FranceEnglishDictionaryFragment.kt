@@ -9,6 +9,9 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -17,7 +20,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toolbar
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -37,6 +42,7 @@ class FranceEnglishDictionaryFragment : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+
     private val connectivityReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             networkSetUp()
@@ -52,6 +58,7 @@ class FranceEnglishDictionaryFragment : Fragment() {
         webviewSetUp()
         menuSetUp()
         hideKeyboard(requireActivity())
+        binding.refreshLayout.isEnabled = false
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -72,13 +79,19 @@ class FranceEnglishDictionaryFragment : Fragment() {
         if (isConnected()) {
             val lastUrl = sharedPreferences.getString(SAVED_PAGE_FRANCE_E, WEB_VIEW_3)
             binding.webview.visibility = View.VISIBLE
-            binding.webview.loadUrl(lastUrl?: WEB_VIEW_3)
+            binding.webview.loadUrl(lastUrl ?: WEB_VIEW_3)
             binding.animationView.visibility = View.GONE
             binding.networkTv.visibility = View.GONE
+            binding.networkToggleButton.visibility = View.GONE
         } else {
             binding.webview.visibility = View.GONE
             binding.animationView.visibility = View.VISIBLE
             binding.networkTv.visibility = View.VISIBLE
+            binding.networkToggleButton.visibility = View.VISIBLE
+            binding.networkToggleButton.setOnClickListener {
+                val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                startActivity(intent)
+            }
         }
     }
 
@@ -92,7 +105,8 @@ class FranceEnglishDictionaryFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.refresh -> {
-                        binding.webview.reload()
+                            binding.refreshLayout.isRefreshing = true
+                            binding.webview.reload()
                         true
                     }
 
@@ -104,8 +118,16 @@ class FranceEnglishDictionaryFragment : Fragment() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun webviewSetUp() {
-        sharedPreferences = requireContext().getSharedPreferences(MY_PREFERENCE, Context.MODE_PRIVATE)
-        binding.webview.webViewClient = object : WebViewClient() {}
+        sharedPreferences =
+            requireContext().getSharedPreferences(MY_PREFERENCE, Context.MODE_PRIVATE)
+        binding.webview.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                _binding?.let {
+                    binding.refreshLayout.isRefreshing = false
+                }
+            }
+        }
         val lastUrl = sharedPreferences.getString(SAVED_PAGE_FRANCE_E, WEB_VIEW_3)
         binding.webview.loadUrl(lastUrl ?: WEB_VIEW_3)
         binding.webview.settings.javaScriptEnabled = true
@@ -128,6 +150,7 @@ class FranceEnglishDictionaryFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        binding.refreshLayout.isRefreshing = false
         context?.unregisterReceiver(connectivityReceiver)
     }
 

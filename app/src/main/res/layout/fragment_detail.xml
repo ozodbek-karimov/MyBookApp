@@ -46,7 +46,7 @@
     </com.github.barteksc.pdfviewer.PDFView>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textView14"
+        android:id="@+id/page_counter_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

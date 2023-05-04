@@ -17,7 +17,7 @@
     <string name="zoom_out">Zoom out</string>
     <string name="search">Search</string>
     <string name="refresh">Refresh</string>
-    <string name="please_check_your_nework">Iltimos internetingizni yoqing !</string>
+    <string name="please_check_your_nework">Internet tarmog\'i uzilgan !</string>
     <string name="tarjimon">Google Tarjimon</string>
     <string name="tungi_rejim">Tungi rejim</string>
     <string name="datur_haqida">Dastur haqida</string>
@@ -33,4 +33,9 @@
     <string name="dasturdan_chiqishni_xohlaysizmi">Dasturdan chiqishni xohlaysizmi ?</string>
     <string name="yo_q">Yo\'q</string>
     <string name="xa">Xa</string>
+    <string name="qorong_u_rejim">Qorong\'u rejim</string>
+    <string name="page_counter">%d / %d</string>
+    <string name="qo_shimcha_lug_atlar">Qo\'shimcha lug\'atlar</string>
+    <string name="internetni_yoqish">Tarmoqqa ulanish</string>
+
 </resources>

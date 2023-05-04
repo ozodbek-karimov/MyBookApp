@@ -2,8 +2,9 @@ package pl.ozodbek.sportatamalari.utils
 
 class Constants {
     companion object {
-        const val MIN_ZOOM = 1.5f
+        const val MIN_ZOOM = 1f
         const val MAX_ZOOM = 5f
+        const val DEFAULT_ZOOM = 1f
 
         const val KIRISH = "page0.pdf"
         const val SET1 = "page1.pdf"
@@ -40,7 +41,6 @@ class Constants {
         const val SAVED_PAGE_FRANCE_E = "saved_page_number3"
         const val SAVED_PAGE_LAST_BOOK = "saved_page_number4"
 
-        const val WEB_VIEW_STATE_KEY = "web_view_state"
 
     }
 }

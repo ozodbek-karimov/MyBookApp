@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -17,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuHost
@@ -52,7 +54,7 @@ class GoogleTranslatorFragment : Fragment() {
         webviewSetUp()
         menuSetUp()
         hideKeyboard(requireActivity())
-
+        binding.refreshLayout.isEnabled = false
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -76,10 +78,16 @@ class GoogleTranslatorFragment : Fragment() {
             binding.webview.loadUrl(lastUrl ?: WEB_VIEW_1)
             binding.animationView.visibility = View.GONE
             binding.networkTv.visibility = View.GONE
+            binding.networkToggleButton.visibility = View.GONE
         } else {
             binding.webview.visibility = View.GONE
             binding.animationView.visibility = View.VISIBLE
             binding.networkTv.visibility = View.VISIBLE
+            binding.networkToggleButton.visibility = View.VISIBLE
+            binding.networkToggleButton.setOnClickListener {
+                val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                startActivity(intent)
+            }
         }
     }
 
@@ -93,6 +101,7 @@ class GoogleTranslatorFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.refresh -> {
+                        binding.refreshLayout.isRefreshing = true
                         binding.webview.reload()
                         true
                     }
@@ -107,7 +116,14 @@ class GoogleTranslatorFragment : Fragment() {
     private fun webviewSetUp() {
         sharedPreferences =
             requireContext().getSharedPreferences(MY_PREFERENCE, Context.MODE_PRIVATE)
-        binding.webview.webViewClient = object : WebViewClient() {}
+        binding.webview.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                _binding?.let {
+                    binding.refreshLayout.isRefreshing = false
+                }
+            }
+        }
         val lastUrl = sharedPreferences.getString(SAVED_PAGE_GOOGLE, WEB_VIEW_1)
         binding.webview.loadUrl(lastUrl ?: WEB_VIEW_1)
         binding.webview.settings.javaScriptEnabled = true

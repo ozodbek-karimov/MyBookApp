@@ -17,6 +17,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.review.ReviewManagerFactory
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
@@ -41,7 +42,7 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener{
         ChaptersNames("Sportchi"),
         ChaptersNames("Tartib"),
         ChaptersNames("Mashq,Musobaqa"),
-        ChaptersNames("Sport turlari.."),
+        ChaptersNames("Sport turlari"),
         ChaptersNames("Stadion"),
         ChaptersNames("Alteizm"),
         ChaptersNames("Yugurish"),
@@ -76,22 +77,18 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener{
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
-        hideKeyboard(requireActivity())
-
-        bookAdapter = BookAdapter(list) { chapterDataName, position ->
-            val action =
-                MainFragmentDirections.actionMainFragmentToDetailFragment(position, chapterDataName)
-            findNavController().navigate(action)
-        }
+        recyclerViewSetUp()
+        onBackPressedSetUp()
 
 
-        binding.recyclerview.adapter = bookAdapter
-        binding.recyclerview.itemAnimator = SlideInUpAnimator().apply {
-            bookAdapter.setData(list)
-            addDuration = 200
-        }
 
 
+
+
+        return binding.root
+    }
+
+    private fun onBackPressedSetUp() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (findNavController().currentDestination?.id == R.id.mainFragment) {
@@ -103,9 +100,20 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener{
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 
+    private fun recyclerViewSetUp() {
+        bookAdapter = BookAdapter(list) { chapterDataName, position ->
+            val action =
+                MainFragmentDirections.actionMainFragmentToDetailFragment(position, chapterDataName)
+            findNavController().navigate(action)
+        }
 
-        return binding.root
+        binding.recyclerview.adapter = bookAdapter
+        binding.recyclerview.itemAnimator = SlideInUpAnimator().apply {
+            bookAdapter.setData(list)
+            addDuration = 200
+        }
     }
 
     private fun showExitDialog() {
@@ -205,6 +213,5 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener{
         } ?: bookAdapter.setData(list)
         return true
     }
-
 
 }

@@ -26,5 +26,4 @@
         android:title="@string/gorizontal_o_qish"
         app:showAsAction="never" />
 
-
 </menu>
