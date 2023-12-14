@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1010247063745",
+    "project_id": "mybookapp-e994b",
+    "storage_bucket": "mybookapp-e994b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010247063745:android:3d75e70db1fed2e7aa1c40",
+        "android_client_info": {
+          "package_name": "pl.ozodbek.sportatamalari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010247063745-dpqqp7v9rdtves6dtr95lbl72pt4oj7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArIxbmaO4Cb5QYzEdxOc-rg89V8GKFdqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010247063745-dpqqp7v9rdtves6dtr95lbl72pt4oj7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

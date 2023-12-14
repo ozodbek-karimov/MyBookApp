@@ -3,7 +3,6 @@ package pl.ozodbek.sportatamalari.ui.fragments
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,9 +14,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.review.ReviewManagerFactory
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
@@ -29,7 +28,7 @@ import pl.ozodbek.sportatamalari.databinding.FragmentMainBinding
 import pl.ozodbek.sportatamalari.utils.hideKeyboard
 
 
-class MainFragment : Fragment(), SearchView.OnQueryTextListener{
+class MainFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -73,7 +72,7 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener{
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 

@@ -5,13 +5,13 @@ import pl.ozodbek.sportatamalari.data.ChaptersNames
 
 class BookDiffCallback(
     private val oldList: List<ChaptersNames>,
-    private val newList: List<ChaptersNames>
+    private val newList: List<ChaptersNames>,
 ) : DiffUtil.Callback() {
 
-    override fun getOldListSize(): Int =  oldList.size
+    override fun getOldListSize(): Int = oldList.size
 
 
-    override fun getNewListSize(): Int =  newList.size
+    override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].bookName == newList[newItemPosition].bookName

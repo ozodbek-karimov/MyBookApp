@@ -211,6 +211,7 @@ class DetailFragment : Fragment() {
 
                     R.id.vertical -> {
                         binding.pdfViewer.invalidate()
+
                         verticalPageSetUp()
                         true
                     }
