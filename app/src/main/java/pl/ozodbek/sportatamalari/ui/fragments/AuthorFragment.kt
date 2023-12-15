@@ -2,9 +2,11 @@ package pl.ozodbek.sportatamalari.ui.fragments
 
 
 import android.content.ActivityNotFoundException
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,7 @@ class AuthorFragment : Fragment() {
     ): View {
         _binding = FragmentAuthorBinding.inflate(inflater, container, false)
 
+        Log.d(TAG, "onCreateView: this")
         binding.ratingSend.setOnClickListener {
             val packageName = requireActivity().packageName
             val intent =
